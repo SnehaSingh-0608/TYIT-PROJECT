@@ -27,3 +27,16 @@ export const createStripePaymentIntentAPI = async (payment) => {
   );
   return response?.data;
 };
+
+//======verify payment intent========
+
+export const verifyPaymentAPI = async (paymentId) => {
+  const response = await axios.post(
+    `http://localhost:5000/api/v1/stripe/verify-payment/${paymentId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response?.data;
+};

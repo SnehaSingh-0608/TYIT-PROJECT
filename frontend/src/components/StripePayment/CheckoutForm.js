@@ -7,6 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useMutation } from "@tanstack/react-query";
 import { createStripePaymentIntentAPI } from "../../apis/stripePayment/stripePayment";
+import StatusMessage from "../Alert/StatusMessage";
 
 const CheckoutForm = () => {
   // Get the payload
@@ -16,6 +17,7 @@ const CheckoutForm = () => {
   const amount = searchParams.get("amount");
   const mutation = useMutation({
     mutationFn: createStripePaymentIntentAPI,
+
   });
 
   // Stripe configuration
@@ -53,6 +55,7 @@ const CheckoutForm = () => {
       }
 
       // Confirm the payment
+     if(mutation?.isSuccess){
       const { error } = await stripe.confirmPayment({
         elements,
         clientSecret: response.clientSecret,
@@ -63,6 +66,8 @@ const CheckoutForm = () => {
       if (error) {
         setErrorMessage(error.message);
       }
+     }
+     
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -77,6 +82,21 @@ const CheckoutForm = () => {
         <div className="mb-4">
           <PaymentElement />
         </div>
+        {/*Display Loading*/ }
+          {mutation?.isPending && (<StatusMessage type='loading'
+           message='Processing payment...' />)}
+
+        {/*Display success*/ }
+
+          {mutation?.isSuccess && (<StatusMessage type='success'
+           message='Payment is successfull' />)}
+
+            {/*Display errror*/ }
+
+          {mutation?.isError && (<StatusMessage type='error'
+           message={mutation?.error?.response?.data?.error} />)}
+
+
         <button className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Pay
         </button>

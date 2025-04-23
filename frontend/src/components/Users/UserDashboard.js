@@ -9,7 +9,7 @@ const Dashboard = () => {
     queryFn: getUserProfileAPI,
     queryKey: ["profile"],
   });
-  //console.log({ isLoading, isError, data, error });
+  
 
   //display Laoding
   if (isLoading) {

@@ -56,7 +56,7 @@ const BlogPostAIAssistant = () => {
     return <StatusMessage type="loading" message="Loading please wait...." />;
   }
   //display error
-  if (isLoading) {
+  if (isError) {
     return (
       <StatusMessage type="error" message={error?.response?.data?.message} />
     );
