@@ -13,6 +13,7 @@ openAIRouter.post(
   openAIController
 );
 
-openAIRouter.post("/test-gemini", geminiController)
+openAIRouter.post("/test-gemini",isAuthenticated,
+  checkApiRequestLimit, geminiController)
 
 module.exports = openAIRouter;

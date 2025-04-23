@@ -12,9 +12,17 @@ import { useEffect } from "react";
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Enter a valid email")
-    .required("Email is required"),
-  password: Yup.string().required("Password is required"),
-  username: Yup.string().required("Username is required"),
+    .required("Email is required")
+    .matches(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, "Only Gmail addresses are allowed"),
+
+  password: Yup.string().required("Password is required")
+  .min(8, "Password must be at least 8 characters long")
+  //.matches(/[a-z]/, "Password must contain at least one lowercase letter")
+  //.matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+  .matches(/[0-9]/, "Password must contain at least one number"),
+
+  username: Yup.string().required("Username is required")
+  .min(3, "Username must be at least 3 characters long"),
 });
 
 const Registration = () => {
